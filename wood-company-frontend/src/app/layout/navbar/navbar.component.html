@@ -1,0 +1,33 @@
+<header class="topbar">
+  <a routerLink="/" class="topbar__brand">
+<img src="assets/images/Logo.png" alt="Logo" class="topbar__logo">
+    <span class="topbar__wordmark">شركة الأخشاب</span>
+  </a>
+
+  <nav class="topbar__nav">
+    <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
+      المنتجات
+    </a>
+    <a routerLink="/services" routerLinkActive="is-active">الخدمات</a>
+  </nav>
+
+  <div class="topbar__actions">
+    <a routerLink="/cart" class="topbar__cart" aria-label="السلة">
+      <span>السلة</span>
+      @if (cart.itemCount() > 0) {
+        <span class="topbar__cart-badge">{{ cart.itemCount() }}</span>
+      }
+    </a>
+
+    @if (auth.currentUser(); as user) {
+      <div class="topbar__user">
+        <a routerLink="/orders" routerLinkActive="is-active" class="topbar__link">طلباتي</a>
+        <span class="topbar__user-name">{{ user.name }}</span>
+        <button type="button" class="topbar__logout" (click)="logout()">خروج</button>
+      </div>
+    } @else {
+      <a routerLink="/login" class="topbar__link">تسجيل الدخول</a>
+      <a routerLink="/register" class="topbar__btn">إنشاء حساب</a>
+    }
+  </div>
+</header>

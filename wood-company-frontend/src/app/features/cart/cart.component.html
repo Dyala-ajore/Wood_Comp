@@ -1,0 +1,106 @@
+<div class="cart-page">
+  <header class="cart-page__header">
+    <span class="catalog__kicker">السلة</span>
+    <h1>مراجعة السلة</h1>
+  </header>
+
+  @if (cart.isEmpty()) {
+    <div class="cart-empty">
+      <p>السلة فاضية حاليًا.</p>
+      <a routerLink="/" class="cart-empty__link">تصفّح المنتجات</a>
+    </div>
+  } @else {
+    @if (cart.items().length > 0) {
+      <div class="cart-list">
+        @for (item of cart.items(); track item.productId) {
+          <div class="cart-item">
+            <div class="cart-item__image">
+              @if (item.imageUrl) {
+                <img [src]="item.imageUrl" [alt]="item.name" />
+              } @else {
+                <span>خ</span>
+              }
+            </div>
+
+            <div class="cart-item__info">
+              <h3>{{ item.name }}</h3>
+              <span class="cart-item__price">{{ item.price | ils }} / وحدة</span>
+            </div>
+
+            <div class="cart-item__qty">
+              <button type="button" (click)="decrease(item.productId, item.quantity)">−</button>
+              <span>{{ item.quantity }}</span>
+              <button
+                type="button"
+                (click)="increase(item.productId, item.quantity)"
+                [disabled]="item.quantity >= item.stock"
+              >
+                +
+              </button>
+            </div>
+
+            <span class="cart-item__subtotal">{{ item.price * item.quantity | ils }}</span>
+
+            <button type="button" class="cart-item__remove" (click)="remove(item.productId)">
+              حذف
+            </button>
+          </div>
+        }
+      </div>
+    }
+
+    @if (cart.serviceItems().length > 0) {
+      <h2 class="cart-list__heading">الخدمات المضافة</h2>
+      <div class="cart-list">
+        @for (service of cart.serviceItems(); track service.productId + '-' + service.serviceId) {
+          <div class="cart-item">
+            <div class="cart-item__image">
+              <span>✂</span>
+            </div>
+
+            <div class="cart-item__info">
+              <h3>{{ service.serviceName }}</h3>
+              <span class="cart-item__price">على: {{ service.productName }}</span>
+            </div>
+
+            <div class="cart-item__qty">
+              <button
+                type="button"
+                (click)="decreaseService(service.productId, service.serviceId, service.quantity)"
+              >
+                −
+              </button>
+              <span>{{ service.quantity }}</span>
+              <button
+                type="button"
+                (click)="increaseService(service.productId, service.serviceId, service.quantity)"
+              >
+                +
+              </button>
+            </div>
+
+            <span class="cart-item__subtotal">{{ service.price * service.quantity | ils }}</span>
+
+            <button
+              type="button"
+              class="cart-item__remove"
+              (click)="removeService(service.productId, service.serviceId)"
+            >
+              حذف
+            </button>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="cart-summary">
+      <div class="cart-summary__row">
+        <span>الإجمالي</span>
+        <strong>{{ cart.totalPrice() | ils }}</strong>
+      </div>
+      <button type="button" class="btn-primary" (click)="goToCheckout()">
+        متابعة إتمام الطلب
+      </button>
+    </div>
+  }
+</div>

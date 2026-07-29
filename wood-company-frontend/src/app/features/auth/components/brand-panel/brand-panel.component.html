@@ -1,0 +1,44 @@
+<aside class="panel">
+  <!-- حلقات جذع الشجرة: العنصر المميز بالخلفية -->
+  <svg class="panel__rings" viewBox="0 0 480 480" aria-hidden="true">
+    <circle cx="250" cy="230" r="210" class="ring ring--1" />
+    <circle cx="244" cy="236" r="175" class="ring ring--2" />
+    <circle cx="252" cy="222" r="140" class="ring ring--1" />
+    <circle cx="246" cy="234" r="106" class="ring ring--2" />
+    <circle cx="250" cy="228" r="74" class="ring ring--1" />
+    <circle cx="248" cy="230" r="44" class="ring ring--3" />
+    <circle cx="249" cy="229" r="18" class="ring ring--core" />
+  </svg>
+
+  <div class="panel__content">
+    <div class="panel__brand">
+      <span class="panel__mark">خ</span>
+      <span class="panel__wordmark">شركة الأخشاب</span>
+    </div>
+
+    @if (eyebrow) {
+      <span class="panel__eyebrow">{{ eyebrow }}</span>
+    }
+
+    <h1 class="panel__title">{{ title }}</h1>
+    <p class="panel__tagline">{{ tagline }}</p>
+
+    <ul class="panel__facts">
+      <li><span class="panel__fact-num">MDF</span><span>ألواح، فورمايكا، أبلكاش</span></li>
+      <li><span class="panel__fact-num">✂</span><span>خدمات قص وكبس بالمقاس</span></li>
+      <li><span class="panel__fact-num">◧</span><span>عروض أسعار للكميات الكبيرة</span></li>
+    </ul>
+  </div>
+
+  <!-- شريط القياس: يفصل اللوحة عن الفورم، ويرمز لبيع الخشب بالمقاس -->
+  <div class="panel__tape" aria-hidden="true">
+    @for (t of ticks; track t) {
+      <div class="panel__tick" [class.panel__tick--major]="t % 50 === 0">
+        <span class="panel__tick-line"></span>
+        @if (t % 50 === 0) {
+          <span class="panel__tick-label">{{ t }}</span>
+        }
+      </div>
+    }
+  </div>
+</aside>

@@ -1,0 +1,6 @@
+<div class="empty-state">
+  <p>{{ message }}</p>
+  @if (actionLabel) {
+    <ng-content select="[action]" />
+  }
+</div>

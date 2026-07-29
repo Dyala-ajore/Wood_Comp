@@ -1,0 +1,66 @@
+<div class="auth-shell">
+  <app-brand-panel
+    eyebrow="خطوة ٠١ / ٠٢"
+    title="أهلًا بعودتك"
+    tagline="سجّل دخولك لمتابعة طلباتك، عروض الأسعار، وحجز خدمات القص والكبس."
+  />
+
+  <main class="auth-form-panel">
+    <form class="auth-card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <header class="auth-card__header">
+        <span class="auth-card__kicker">تسجيل الدخول</span>
+        <h1>ادخل إلى حسابك</h1>
+      </header>
+
+      @if (errorMessage()) {
+        <div class="auth-banner auth-banner--error" role="alert">{{ errorMessage() }}</div>
+      }
+
+      <label class="field">
+        <span class="field__label">البريد الإلكتروني</span>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="name@example.com"
+          autocomplete="email"
+          dir="ltr"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="field__error">أدخل بريدًا إلكترونيًا صحيحًا</span>
+        }
+      </label>
+
+      <label class="field">
+        <span class="field__label">كلمة المرور</span>
+        <div class="field__input-group">
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            dir="ltr"
+          />
+          <button
+            type="button"
+            class="field__toggle"
+            (click)="showPassword.set(!showPassword())"
+          >
+            {{ showPassword() ? 'إخفاء' : 'إظهار' }}
+          </button>
+        </div>
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="field__error">كلمة المرور مطلوبة</span>
+        }
+      </label>
+
+      <button type="submit" class="btn-primary" [disabled]="loading()">
+        @if (loading()) {
+          <span class="spinner" aria-hidden="true"></span>
+        }
+        {{ loading() ? 'جارٍ الدخول...' : 'تسجيل الدخول' }}
+      </button>
+
+      <p class="auth-switch">ليس لديك حساب؟ <a routerLink="/register">أنشئ حسابًا جديدًا</a></p>
+    </form>
+  </main>
+</div>

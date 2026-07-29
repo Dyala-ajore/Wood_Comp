@@ -1,0 +1,92 @@
+<div class="auth-shell">
+  <app-brand-panel
+    eyebrow="خطوة ٠٢ / ٠٢"
+    title="أنشئ حسابك"
+    tagline="حساب واحد لطلب المنتجات، تقديم عروض الأسعار، وتتبّع خدمات القص والكبس."
+  />
+
+  <main class="auth-form-panel">
+    <form class="auth-card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <header class="auth-card__header">
+        <span class="auth-card__kicker">حساب جديد</span>
+        <h1>سجّل بياناتك</h1>
+      </header>
+
+      @if (errorMessage()) {
+        <div class="auth-banner auth-banner--error" role="alert">{{ errorMessage() }}</div>
+      }
+
+      <label class="field">
+        <span class="field__label">الاسم الكامل</span>
+        <input type="text" formControlName="name" placeholder="مثال: أحمد محمد" autocomplete="name" />
+        @if (form.controls.name.touched && form.controls.name.invalid) {
+          <span class="field__error">الاسم مطلوب (حرفين على الأقل)</span>
+        }
+      </label>
+
+      <label class="field">
+        <span class="field__label">البريد الإلكتروني</span>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="name@example.com"
+          autocomplete="email"
+          dir="ltr"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="field__error">أدخل بريدًا إلكترونيًا صحيحًا</span>
+        }
+      </label>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">كلمة المرور</span>
+          <div class="field__input-group">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+              autocomplete="new-password"
+              dir="ltr"
+            />
+            <button
+              type="button"
+              class="field__toggle"
+              (click)="showPassword.set(!showPassword())"
+            >
+              {{ showPassword() ? 'إخفاء' : 'إظهار' }}
+            </button>
+          </div>
+          @if (form.controls.password.touched && form.controls.password.invalid) {
+            <span class="field__error">٦ أحرف على الأقل</span>
+          }
+        </label>
+
+        <label class="field">
+          <span class="field__label">تأكيد كلمة المرور</span>
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder="••••••••"
+            autocomplete="new-password"
+            dir="ltr"
+          />
+          @if (form.controls.confirmPassword.touched && form.errors?.['passwordsMismatch']) {
+            <span class="field__error">كلمتا المرور غير متطابقتين</span>
+          }
+        </label>
+      </div>
+
+      <span class="field__hint">سيُنشأ حسابك كزبون. يمكن لإدارة الشركة ترقية الصلاحيات لاحقًا.</span>
+
+      <button type="submit" class="btn-primary" [disabled]="loading()">
+        @if (loading()) {
+          <span class="spinner" aria-hidden="true"></span>
+        }
+        {{ loading() ? 'جارٍ الإنشاء...' : 'إنشاء الحساب' }}
+      </button>
+
+      <p class="auth-switch">لديك حساب مسبقًا؟ <a routerLink="/login">سجّل الدخول</a></p>
+    </form>
+  </main>
+</div>

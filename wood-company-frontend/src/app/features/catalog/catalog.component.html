@@ -1,0 +1,68 @@
+<div class="catalog">
+  <header class="catalog__header">
+    <span class="catalog__kicker">المنتجات</span>
+    <h1>مستلزمات ومواد الخشب</h1>
+    <p>ألواح، MDF، فورمايكا، أبلكاش، ومستلزمات نجارة — تصفّح بحرّية وأضف للسلة.</p>
+  </header>
+
+  @if (loading()) {
+    <div class="catalog__grid">
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="product-card product-card--skeleton"></div>
+      }
+    </div>
+  } @else if (errorMessage()) {
+    <div class="catalog__empty">
+      <p>{{ errorMessage() }}</p>
+    </div>
+  } @else if (products().length === 0) {
+    <div class="catalog__empty">
+      <p>ما في منتجات متاحة حاليًا.</p>
+    </div>
+  } @else {
+    <div class="catalog__grid">
+      @for (product of products(); track product.id) {
+        <article class="product-card">
+          <a [routerLink]="['/products', product.id]" class="product-card__image">
+            @if (product.images.length) {
+              <img [src]="product.images[0].imageUrl" [alt]="product.name" loading="lazy" />
+            } @else {
+              <span class="product-card__placeholder">خ</span>
+            }
+
+            @if (product.stock === 0) {
+              <span class="product-card__badge product-card__badge--out">نفدت الكمية</span>
+            } @else if (product.stock <= 5) {
+              <span class="product-card__badge">كمية محدودة</span>
+            }
+          </a>
+
+          <div class="product-card__body">
+            <span class="product-card__type">{{ product.productType }}</span>
+            <a [routerLink]="['/products', product.id]" class="product-card__name">
+              {{ product.name }}
+            </a>
+
+            @if (product.length && product.width && product.thickness) {
+              <p class="product-card__dims">
+                {{ product.length }} × {{ product.width }} × {{ product.thickness }} سم
+              </p>
+            }
+
+            <div class="product-card__footer">
+              <span class="product-card__price">{{ product.price | ils }}</span>
+              <button
+                type="button"
+                class="product-card__add"
+                [disabled]="product.stock === 0"
+                (click)="addToCart(product)"
+              >
+                {{ justAdded() === product.id ? 'أُضيف ✓' : 'أضف للسلة' }}
+              </button>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

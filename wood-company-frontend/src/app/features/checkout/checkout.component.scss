@@ -1,0 +1,159 @@
+@use '../auth/auth-shell';
+
+.checkout-page {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.checkout-page__header {
+  margin-bottom: 24px;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 8px 0 0;
+  }
+}
+
+.catalog__kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--brass-bright);
+}
+
+.checkout-summary {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 10px 22px;
+  margin-bottom: 24px;
+}
+
+.checkout-row {
+  display: grid;
+  grid-template-columns: 1fr auto 90px;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 14px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.checkout-row__name {
+  color: var(--text);
+}
+
+.checkout-row__sub {
+  color: var(--text-faint);
+  font-size: 12px;
+}
+
+.checkout-row__qty {
+  font-family: var(--font-mono);
+  color: var(--text-faint);
+  font-size: 13px;
+}
+
+.checkout-row__price {
+  font-family: var(--font-mono);
+  text-align: end;
+  color: var(--sawdust);
+}
+
+.checkout-row--total {
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+
+  .checkout-row__name {
+    font-weight: 700;
+  }
+
+  .checkout-row__price {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+  }
+}
+
+.checkout-page > .btn-primary {
+  width: 100%;
+}
+
+.cart-empty {
+  padding: 70px 20px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+}
+
+.cart-empty__link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--brass-bright);
+  font-weight: 600;
+}
+
+// -- شاشة النجاح --
+.checkout-success {
+  text-align: center;
+  padding: 70px 20px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.checkout-success__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(143, 174, 110, 0.15);
+  color: var(--success);
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.checkout-success h1 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.checkout-success p {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  margin-bottom: 26px;
+  line-height: 1.7;
+
+  strong {
+    color: var(--brass-bright);
+    font-family: var(--font-mono);
+  }
+}
+
+.checkout-success .btn-primary {
+  display: inline-flex;
+  padding-inline: 28px;
+}
+
+.checkout-success__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkout-success__secondary {
+  font-size: 13px;
+  color: var(--text-muted);
+
+  &:hover {
+    color: var(--brass-bright);
+  }
+}

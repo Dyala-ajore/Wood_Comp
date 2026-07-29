@@ -1,0 +1,15 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.shell__content {
+  flex: 1;
+  padding: 40px;
+
+  @media (max-width: 640px) {
+    padding: 20px 16px;
+  }
+}

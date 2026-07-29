@@ -1,0 +1,97 @@
+<div class="product-detail">
+  @if (loading()) {
+    <app-loading-spinner label="جارٍ تحميل المنتج..." />
+  } @else if (errorMessage()) {
+    <app-empty-state [message]="errorMessage()!" />
+  } @else {
+    @if (product(); as p) {
+      <a routerLink="/" class="back-link">→ رجوع للمنتجات</a>
+
+    <div class="product-detail__grid">
+      <div class="product-detail__image">
+        @if (p.images.length) {
+          <img [src]="p.images[0].imageUrl" [alt]="p.name" />
+        } @else {
+          <span class="product-detail__placeholder">خ</span>
+        }
+      </div>
+
+      <div class="product-detail__info">
+        <span class="product-detail__type">{{ p.productType }}</span>
+        <h1>{{ p.name }}</h1>
+
+        @if (p.description) {
+          <p class="product-detail__desc">{{ p.description }}</p>
+        }
+
+        @if (p.length && p.width && p.thickness) {
+          <div class="product-detail__dims">
+            <span>الطول: {{ p.length }} سم</span>
+            <span>العرض: {{ p.width }} سم</span>
+            <span>السماكة: {{ p.thickness }} سم</span>
+          </div>
+        }
+
+        <div class="product-detail__price-row">
+          <span class="product-detail__price">{{ p.price | ils }}</span>
+          @if (p.stock === 0) {
+            <span class="stock-badge stock-badge--out">نفدت الكمية</span>
+          } @else {
+            <span class="stock-badge">متوفر ({{ p.stock }})</span>
+          }
+        </div>
+
+        @if (p.stock > 0) {
+          <div class="qty-row">
+            <div class="qty-control">
+              <button type="button" (click)="decreaseQty()">−</button>
+              <span>{{ quantity() }}</span>
+              <button type="button" (click)="increaseQty()" [disabled]="quantity() >= p.stock">
+                +
+              </button>
+            </div>
+            <button type="button" class="btn-primary" (click)="addToCart()">
+              {{ addedToCart() ? 'أُضيف للسلة ✓' : 'أضف للسلة' }}
+            </button>
+          </div>
+        }
+
+        @if (services().length > 0) {
+          <div class="service-picker">
+            <h3>أضف خدمة على هذا المنتج</h3>
+            <div class="service-picker__row">
+              <select
+                class="service-picker__select"
+                [ngModel]="selectedServiceId()"
+                (ngModelChange)="selectedServiceId.set($event)"
+              >
+                <option [ngValue]="null">اختر خدمة...</option>
+                @for (s of services(); track s.id) {
+                  <option [ngValue]="s.id">{{ s.name }} — {{ s.price | ils }}</option>
+                }
+              </select>
+
+              <input
+                type="number"
+                min="1"
+                class="service-picker__qty"
+                [ngModel]="serviceQuantity()"
+                (ngModelChange)="serviceQuantity.set($event)"
+              />
+
+              <button
+                type="button"
+                class="service-picker__add"
+                [disabled]="selectedServiceId() == null"
+                (click)="addServiceToCart()"
+              >
+                {{ serviceAdded() ? 'أُضيفت ✓' : 'إضافة' }}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    }
+  }
+</div>

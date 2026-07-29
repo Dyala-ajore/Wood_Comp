@@ -1,0 +1,68 @@
+<div class="checkout-page">
+  @if (successOrderId(); as orderId) {
+    <div class="checkout-success">
+      <span class="checkout-success__icon">✓</span>
+      <h1>تم استلام طلبك</h1>
+      <p>رقم الطلب <strong>#{{ orderId }}</strong>. رح يتواصل معك فريقنا لتأكيد التفاصيل.</p>
+      <div class="checkout-success__actions">
+        <a routerLink="/orders" class="btn-primary">عرض طلباتي</a>
+        <a routerLink="/" class="checkout-success__secondary">العودة للمنتجات</a>
+      </div>
+    </div>
+  } @else {
+    <header class="checkout-page__header">
+      <span class="catalog__kicker">إتمام الطلب</span>
+      <h1>مراجعة أخيرة قبل الإرسال</h1>
+    </header>
+
+    @if (errorMessage()) {
+      <div class="auth-banner auth-banner--error" role="alert">{{ errorMessage() }}</div>
+    }
+
+    @if (cart.isEmpty()) {
+      <div class="cart-empty">
+        <p>السلة فاضية.</p>
+        <a routerLink="/" class="cart-empty__link">تصفّح المنتجات</a>
+      </div>
+    } @else {
+      <div class="checkout-summary">
+        @for (item of cart.items(); track item.productId) {
+          <div class="checkout-row">
+            <span class="checkout-row__name">{{ item.name }}</span>
+            <span class="checkout-row__qty">× {{ item.quantity }}</span>
+            <span class="checkout-row__price">{{ item.price * item.quantity | ils }}</span>
+          </div>
+        }
+
+        @for (service of cart.serviceItems(); track service.productId + '-' + service.serviceId) {
+          <div class="checkout-row">
+            <span class="checkout-row__name">
+              {{ service.serviceName }}
+              <span class="checkout-row__sub">— {{ service.productName }}</span>
+            </span>
+            <span class="checkout-row__qty">× {{ service.quantity }}</span>
+            <span class="checkout-row__price">{{ service.price * service.quantity | ils }}</span>
+          </div>
+        }
+
+        <div class="checkout-row checkout-row--total">
+          <span class="checkout-row__name">الإجمالي</span>
+          <span></span>
+          <span class="checkout-row__price">{{ cart.totalPrice() | ils }}</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn-primary"
+        [disabled]="submitting()"
+        (click)="confirmOrder()"
+      >
+        @if (submitting()) {
+          <span class="spinner" aria-hidden="true"></span>
+        }
+        {{ submitting() ? 'جارٍ إرسال الطلب...' : 'تأكيد الطلب' }}
+      </button>
+    }
+  }
+</div>

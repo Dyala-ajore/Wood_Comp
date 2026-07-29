@@ -1,0 +1,72 @@
+<div class="orders-page">
+  <header class="orders-page__header">
+    <span class="catalog__kicker">حسابي</span>
+    <h1>طلباتي</h1>
+  </header>
+
+  @if (loading()) {
+    <app-loading-spinner label="جارٍ تحميل طلباتك..." />
+  } @else if (errorMessage()) {
+    <app-empty-state [message]="errorMessage()!" />
+  } @else if (orders().length === 0) {
+    <app-empty-state message="لسا ما قدّمت أي طلب." actionLabel="تصفح">
+      <a routerLink="/" action class="cart-empty__link">تصفّح المنتجات</a>
+    </app-empty-state>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders(); track order.id) {
+        <article class="order-card">
+          <button
+            type="button"
+            class="order-card__summary"
+            (click)="toggleExpand(order.id)"
+            [attr.aria-expanded]="expandedOrderId() === order.id"
+          >
+            <div class="order-card__main">
+              <span class="order-card__number">طلب #{{ order.id }}</span>
+              <span class="order-card__date">{{ order.createdAt | date: 'd MMMM y' }}</span>
+            </div>
+
+            <span [class]="statusClass(order.status)">{{ order.status | orderStatusLabel }}</span>
+
+            <span class="order-card__total">{{ order.totalPrice | ils }}</span>
+
+            <span class="order-card__chevron" [class.order-card__chevron--open]="expandedOrderId() === order.id">
+              ↓
+            </span>
+          </button>
+
+          @if (expandedOrderId() === order.id) {
+            <div class="order-card__details">
+              @if (order.items.length > 0) {
+                <div class="order-card__section">
+                  <h4>المنتجات</h4>
+                  @for (item of order.items; track item.productId) {
+                    <div class="order-row">
+                      <span>{{ item.productName }}</span>
+                      <span class="order-row__qty">× {{ item.quantity }}</span>
+                      <span class="order-row__price">{{ item.price * item.quantity | ils }}</span>
+                    </div>
+                  }
+                </div>
+              }
+
+              @if (order.serviceItems.length > 0) {
+                <div class="order-card__section">
+                  <h4>الخدمات</h4>
+                  @for (service of order.serviceItems; track service.serviceId + '-' + service.productId) {
+                    <div class="order-row">
+                      <span>{{ service.serviceName }} <span class="order-row__sub">— {{ service.productName }}</span></span>
+                      <span class="order-row__qty">× {{ service.quantity }}</span>
+                      <span class="order-row__price">{{ service.price * service.quantity | ils }}</span>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </article>
+      }
+    </div>
+  }
+</div>

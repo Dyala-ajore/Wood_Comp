@@ -1,0 +1,35 @@
+<div class="services-page">
+  <header class="services-page__header">
+    <span class="catalog__kicker">خدماتنا</span>
+    <h1>خدمات القص والكبس</h1>
+    <p>اختر منتجًا من الكتالوج، وبعدين حدّد الخدمة المطلوبة عليه من صفحة تفاصيل المنتج.</p>
+  </header>
+
+  @if (loading()) {
+    <app-loading-spinner label="جارٍ تحميل الخدمات..." />
+  } @else if (errorMessage()) {
+    <app-empty-state [message]="errorMessage()!" />
+  } @else if (services().length === 0) {
+    <app-empty-state message="ما في خدمات متاحة حاليًا." />
+  } @else {
+    <div class="services-grid">
+      @for (service of services(); track service.id) {
+        <article class="service-card">
+          <div class="service-card__icon">✂</div>
+          <div class="service-card__body">
+            <h3>{{ service.name }}</h3>
+            @if (service.description) {
+              <p>{{ service.description }}</p>
+            }
+          </div>
+          <span class="service-card__price">{{ service.price | ils }}</span>
+        </article>
+      }
+    </div>
+
+    <div class="services-cta">
+      <p>عندك منتج بدك تطبّق عليه خدمة؟</p>
+      <a routerLink="/" class="services-cta__link">تصفّح المنتجات</a>
+    </div>
+  }
+</div>
