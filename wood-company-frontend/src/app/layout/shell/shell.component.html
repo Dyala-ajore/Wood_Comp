@@ -1,9 +1,15 @@
 <div class="shell">
   <app-navbar />
 
-  <main class="shell__content">
-    <router-outlet />
-  </main>
+  <div class="shell__body">
+    @if (showSidebar) {
+      <app-sidebar />
+    }
+
+    <main class="shell__content">
+      <router-outlet />
+    </main>
+  </div>
 
   <app-footer />
 </div>

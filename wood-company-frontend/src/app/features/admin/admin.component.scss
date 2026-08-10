@@ -1,0 +1,154 @@
+@use '../auth/auth-shell';
+
+.admin-page {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.admin-page__header {
+  margin-bottom: 24px;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 8px 0 0;
+  }
+}
+
+.catalog__kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--brass-bright);
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-soft);
+  overflow-x: auto;
+
+  button {
+    background: none;
+    border: none;
+    padding: 10px 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+
+    &.is-active {
+      color: var(--brass-bright);
+      border-color: var(--brass);
+    }
+  }
+}
+
+.admin-section__toolbar {
+  margin-bottom: 16px;
+}
+
+.btn-outline {
+  padding: 9px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--brass);
+    color: var(--brass-bright);
+  }
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+
+  th,
+  td {
+    text-align: start;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  th {
+    color: var(--text-faint);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  select {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+}
+
+.admin-table__low {
+  color: var(--error);
+  font-weight: 700;
+}
+
+.admin-table__delete,
+.admin-table__save,
+.admin-table__approve {
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-table__delete {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.admin-table__save {
+  background: var(--brass);
+  color: #17130f;
+}
+
+.admin-table__approve {
+  background: rgba(143, 174, 110, 0.18);
+  color: var(--success);
+  margin-inline-end: 8px;
+}
+
+.admin-table__actions {
+  white-space: nowrap;
+}

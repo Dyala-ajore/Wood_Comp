@@ -1,0 +1,73 @@
+<div class="quotes-page">
+  <header class="quotes-page__header">
+    <span class="catalog__kicker">عروض الأسعار</span>
+    <h1>طلبات عرض السعر</h1>
+    <p>لو بدك كمية كبيرة بسعر خاص، قدّم طلب وفريقنا رح يراجعه ويردّ عليك.</p>
+  </header>
+
+  <form class="quote-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <h3>طلب جديد</h3>
+
+    @if (submitError()) {
+      <div class="auth-banner auth-banner--error" role="alert">{{ submitError() }}</div>
+    }
+    @if (submitSuccess()) {
+      <div class="auth-banner auth-banner--success" role="status">
+        تم إرسال طلبك بنجاح، رح نراجعه ونرد عليك قريبًا.
+      </div>
+    }
+
+    <div class="field-row">
+      <label class="field">
+        <span class="field__label">المنتج</span>
+        <select formControlName="productId">
+          <option [ngValue]="null">اختر منتج...</option>
+          @for (p of products(); track p.id) {
+            <option [ngValue]="p.id">{{ p.name }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field__label">الكمية</span>
+        <input type="number" min="1" formControlName="quantity" />
+      </label>
+    </div>
+
+    <label class="field">
+      <span class="field__label">ملاحظات (اختياري)</span>
+      <input type="text" formControlName="message" placeholder="مثلًا: بحاجة توصيل لنابلس" />
+    </label>
+
+    <button type="submit" class="btn-primary" [disabled]="submitting()">
+      {{ submitting() ? 'جارٍ الإرسال...' : 'إرسال الطلب' }}
+    </button>
+  </form>
+
+  <h2 class="quotes-page__subheading">طلباتي السابقة</h2>
+
+  @if (loading()) {
+    <app-loading-spinner label="جارٍ تحميل الطلبات..." />
+  } @else if (errorMessage()) {
+    <app-empty-state [message]="errorMessage()!" />
+  } @else if (quotes().length === 0) {
+    <app-empty-state message="لسا ما قدّمت أي طلب عرض سعر." />
+  } @else {
+    <div class="quotes-list">
+      @for (q of quotes(); track q.id) {
+        <div class="quote-card">
+          <div class="quote-card__main">
+            <span class="quote-card__product">{{ q.productName }}</span>
+            <span class="quote-card__meta">
+              كمية {{ q.quantity }} — {{ q.createdAt | date: 'd MMMM y' }}
+            </span>
+            @if (q.message) {
+              <span class="quote-card__message">"{{ q.message }}"</span>
+            }
+          </div>
+          <span [class]="statusClass(q.status)">{{ q.status | quoteStatusLabel }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

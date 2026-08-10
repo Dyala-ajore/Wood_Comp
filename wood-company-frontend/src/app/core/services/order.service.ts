@@ -15,4 +15,13 @@ export class OrderService {
   getMyOrders(): Observable<OrderResponse[]> {
     return this.http.get<OrderResponse[]>(`${environment.apiUrl}/orders/my`);
   }
+
+  // ---- عمليات الأدمن/المدير ----
+  getAllOrders(): Observable<OrderResponse[]> {
+    return this.http.get<OrderResponse[]>(`${environment.apiUrl}/orders`);
+  }
+
+  updateStatus(id: number, status: string): Observable<OrderResponse> {
+    return this.http.put<OrderResponse>(`${environment.apiUrl}/orders/${id}/status`, { status });
+  }
 }

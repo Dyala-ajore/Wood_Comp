@@ -9,6 +9,11 @@
       المنتجات
     </a>
     <a routerLink="/services" routerLinkActive="is-active">الخدمات</a>
+
+    @if (auth.currentUser()) {
+      <a routerLink="/orders" routerLinkActive="is-active">طلباتي</a>
+      <a routerLink="/quotes" routerLinkActive="is-active">عروض الأسعار</a>
+    }
   </nav>
 
   <div class="topbar__actions">
@@ -21,7 +26,6 @@
 
     @if (auth.currentUser(); as user) {
       <div class="topbar__user">
-        <a routerLink="/orders" routerLinkActive="is-active" class="topbar__link">طلباتي</a>
         <span class="topbar__user-name">{{ user.name }}</span>
         <button type="button" class="topbar__logout" (click)="logout()">خروج</button>
       </div>

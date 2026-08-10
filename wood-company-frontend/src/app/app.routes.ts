@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
-    // كل الصفحات العامة (تصفح بدون تسجيل دخول) تعيش جوا الـ Shell
+    // كل الصفحات تعيش جوا الـ Shell (العامة + المحمية)
     path: '',
     loadComponent: () => import('./layout/shell/shell.component').then((m) => m.ShellComponent),
     children: [
@@ -29,22 +30,44 @@ export const routes: Routes = [
         loadComponent: () => import('./features/cart/cart.component').then((m) => m.CartComponent),
       },
       {
-        // الصفحة الوحيدة المحمية بهالمرحلة: إتمام الطلب
+        // محمية: إتمام الطلب لازم تسجيل دخول
         path: 'checkout',
         canActivate: [authGuard],
         loadComponent: () =>
           import('./features/checkout/checkout.component').then((m) => m.CheckoutComponent),
       },
       {
-        // طلباتي: محمية أيضًا، الزبون لازم يكون مسجّل دخول ليشوفها
+        // محمية: طلباتي
         path: 'orders',
         canActivate: [authGuard],
         loadComponent: () =>
           import('./features/orders/orders.component').then((m) => m.OrdersComponent),
       },
+      {
+        // محمية: طلبات عرض السعر
+        path: 'quotes',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/quotes/quotes.component').then((m) => m.QuotesComponent),
+      },
+      {
+        // محمية بالدور: أدمن/مدير فقط
+        path: 'dashboard',
+        canActivate: [authGuard, roleGuard],
+        data: { roles: ['admin', 'manager'] },
+        loadComponent: () =>
+          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      },
+      {
+        // محمية بالدور: أدمن/مدير فقط
+        path: 'admin',
+        canActivate: [authGuard, roleGuard],
+        data: { roles: ['admin', 'manager'] },
+        loadComponent: () =>
+          import('./features/admin/admin.component').then((m) => m.AdminComponent),
+      },
     ],
   },
-  // اللوج إن والتسجيل: صفحات مستقلة بتصميمها الخاص (بدون الهيدر العام)
   {
     path: 'login',
     loadComponent: () =>

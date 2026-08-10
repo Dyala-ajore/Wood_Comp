@@ -1,0 +1,24 @@
+<div class="dashboard-page">
+  <header class="dashboard-page__header">
+    <span class="catalog__kicker">لوحة التحكم</span>
+    <h1>نظرة عامة</h1>
+  </header>
+
+  @if (loading()) {
+    <app-loading-spinner label="جارٍ تحميل الإحصائيات..." />
+  } @else if (errorMessage()) {
+    <app-empty-state [message]="errorMessage()!" />
+  } @else {
+    <div class="stats-grid">
+      @for (card of cards(); track card.label) {
+        <div class="stat-card" [class]="'stat-card--' + card.tone">
+          <span class="stat-card__icon">{{ card.icon }}</span>
+          <div class="stat-card__body">
+            <span class="stat-card__value">{{ card.value }}</span>
+            <span class="stat-card__label">{{ card.label }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

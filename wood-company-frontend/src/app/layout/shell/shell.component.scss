@@ -5,9 +5,15 @@
   background: var(--bg);
 }
 
+.shell__body {
+  flex: 1;
+  display: flex;
+}
+
 .shell__content {
   flex: 1;
   padding: 40px;
+  min-width: 0;
 
   @media (max-width: 640px) {
     padding: 20px 16px;
