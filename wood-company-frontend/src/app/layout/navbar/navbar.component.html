@@ -26,7 +26,9 @@
 
     @if (auth.currentUser(); as user) {
       <div class="topbar__user">
-        <span class="topbar__user-name">{{ user.name }}</span>
+        <span class="topbar__user-role">
+  {{ user.role }}
+</span>
         <button type="button" class="topbar__logout" (click)="logout()">خروج</button>
       </div>
     } @else {
