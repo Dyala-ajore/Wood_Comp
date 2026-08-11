@@ -150,3 +150,15 @@
     filter: brightness(1.08);
   }
 }
+@media (max-width: 768px) {
+  .topbar {
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 12px 20px;
+  }
+
+  .topbar__nav {
+    order: 3;
+    width: 100%;
+  }
+}
