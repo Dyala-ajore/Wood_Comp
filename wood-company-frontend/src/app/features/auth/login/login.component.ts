@@ -45,6 +45,10 @@ export class LoginComponent {
         this.router.navigateByUrl(returnUrl);
       },
       error: (err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          this.errorMessage.set('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
+          return;
+        }
         this.loading.set(false);
         const body = err.error as ApiErrorResponse | undefined;
         this.errorMessage.set(
