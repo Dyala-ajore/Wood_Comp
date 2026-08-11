@@ -27,11 +27,17 @@ export class DashboardComponent implements OnInit {
   readonly loading = signal(true);
   readonly errorMessage = signal<string | null>(null);
   readonly cards = signal<StatCard[]>([]);
+  readonly hasData = signal(false);
 
   ngOnInit(): void {
     this.dashboardService.getSummary().subscribe({
       next: (data) => {
         this.cards.set(this.buildCards(data));
+        this.hasData.set(
+            data.totalProducts > 0 ||
+            data.totalOrders > 0 ||
+            data.totalUsers > 0
+        );
         this.loading.set(false);
       },
       error: () => {
