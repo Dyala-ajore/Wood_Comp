@@ -71,8 +71,13 @@
             autocomplete="new-password"
             dir="ltr"
           />
-          @if (form.controls.confirmPassword.touched && form.errors?.['passwordsMismatch']) {
-            <span class="field__error">كلمتا المرور غير متطابقتين</span>
+          @if (
+          form.controls.password.touched &&
+          form.controls.password.invalid
+          ) {
+          <span class="field__error">
+    كلمة المرور يجب أن تكون 6 أحرف على الأقل وتحتوي على رقم
+  </span>
           }
         </label>
       </div>
