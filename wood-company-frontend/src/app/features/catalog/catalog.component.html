@@ -11,14 +11,14 @@
         <div class="product-card product-card--skeleton"></div>
       }
     </div>
-  } @else if (errorMessage()) {
-    <div class="catalog__empty">
-      <p>{{ errorMessage() }}</p>
-    </div>
-  } @else if (products().length === 0) {
-    <div class="catalog__empty">
-      <p>ما في منتجات متاحة حاليًا.</p>
-    </div>
+  }@if (errorMessage()) {
+  <div class="catalog__empty">
+    <p>{{ errorMessage() }}</p>
+
+    <button type="button" (click)="loadProducts()">
+      إعادة المحاولة
+    </button>
+  </div>
   } @else {
     <div class="catalog__grid">
       @for (product of products(); track product.id) {

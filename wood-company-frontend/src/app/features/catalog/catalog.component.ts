@@ -24,21 +24,30 @@ export class CatalogComponent implements OnInit {
   readonly justAdded = signal<number | null>(null);
 
   ngOnInit(): void {
-    this.productService.getAll().subscribe({
-      next: (list) => {
-        this.products.set(list);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('تعذّر تحميل المنتجات، تأكد إن الخادم شغال وحاول مجددًا.');
-        this.loading.set(false);
-      },
-    });
+    this.loadProducts();
   }
 
   addToCart(product: Product): void {
     this.cart.addItem(product, 1);
     this.justAdded.set(product.id);
     setTimeout(() => this.justAdded.set(null), 1400);
+  }
+
+  loadProducts(): void {
+    this.loading.set(true);
+    this.errorMessage.set(null);
+
+    this.productService.getAll().subscribe({
+      next: (list) => {
+        this.products.set(list);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.errorMessage.set(
+            'تعذّر تحميل المنتجات، تأكد إن الخادم شغال وحاول مجددًا.'
+        );
+        this.loading.set(false);
+      },
+    });
   }
 }
