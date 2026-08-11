@@ -44,7 +44,12 @@ export class QuotesComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.productService.getAll().subscribe({ next: (list) => this.products.set(list) });
+    this.productService.getAll().subscribe({
+      next: (list) => this.products.set(list),
+      error: () => {
+        this.submitError.set('تعذّر تحميل قائمة المنتجات.');
+      },
+    });
     this.loadQuotes();
   }
 
