@@ -48,10 +48,16 @@ export class AuthService {
 
   private readStoredUser(): AuthResponse | null {
     const raw = localStorage.getItem(USER_KEY);
-    if (!raw) return null;
+
+    if (!raw) {
+      return null;
+    }
+
     try {
       return JSON.parse(raw) as AuthResponse;
     } catch {
+      localStorage.removeItem(USER_KEY);
+      localStorage.removeItem(TOKEN_KEY);
       return null;
     }
   }
